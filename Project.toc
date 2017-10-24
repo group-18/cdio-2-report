@@ -8,10 +8,11 @@
 \contentsline {section}{\numberline {3.4}Dom\IeC {\ae }nemodel}{6}{section.3.4}
 \contentsline {chapter}{\numberline {4}Design}{7}{chapter.4}
 \contentsline {section}{\numberline {4.1}Klassediagram}{7}{section.4.1}
-\contentsline {chapter}{\numberline {5}Implementering}{8}{chapter.5}
-\contentsline {section}{\numberline {5.1}Brugervejledning for programmet}{8}{section.5.1}
-\contentsline {chapter}{\numberline {6}Test}{9}{chapter.6}
-\contentsline {section}{\numberline {6.1}Unit test}{9}{section.6.1}
-\contentsline {section}{\numberline {6.2}Testcases}{10}{section.6.2}
-\contentsline {chapter}{\numberline {7}Projektplanl\IeC {\ae }gning}{13}{chapter.7}
-\contentsline {chapter}{\numberline {8}Konklusion}{16}{chapter.8}
+\contentsline {section}{\numberline {4.2}Flowdiagram}{8}{section.4.2}
+\contentsline {chapter}{\numberline {5}Implementering}{9}{chapter.5}
+\contentsline {section}{\numberline {5.1}Brugervejledning for programmet}{9}{section.5.1}
+\contentsline {chapter}{\numberline {6}Test}{10}{chapter.6}
+\contentsline {section}{\numberline {6.1}Unit test}{10}{section.6.1}
+\contentsline {section}{\numberline {6.2}Testcases}{11}{section.6.2}
+\contentsline {chapter}{\numberline {7}Projektplanl\IeC {\ae }gning}{14}{chapter.7}
+\contentsline {chapter}{\numberline {8}Konklusion}{17}{chapter.8}
