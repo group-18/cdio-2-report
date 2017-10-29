@@ -16,4 +16,5 @@
             ]
         }
     ],
+    "latex-workshop.latex.outputDir": "./out/"
 }
