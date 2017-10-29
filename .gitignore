@@ -1,0 +1,9 @@
+### Project output
+/out/
+
+### macOS
+.DS_Store
+
+### Windows
+Thumbs.db
+Desktop.ini
