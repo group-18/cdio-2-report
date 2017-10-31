@@ -3,34 +3,64 @@
 \subsubsection{FURPS+}
 FURPS+ er en metode til at kategorisere / klassificere krav. \\ Det plus vi ser til sidst i FURPS+ vises på mange forskellige måder, og er ikke altid det samme i alle sammenhænge.
 
-\begin{center}
-\begin{tabular}{cll}
-       \textbf{F}   &   Functionality   &
-       Egenskaber, ydeevne, sikkerhed \\
+\begin{figure*}[ht]{
+    \centering
+\begin{tabular}{|c | p{0,05cm} p{2,8cm} |p{10,5cm}|}
+       \hline
+       \textbf{F}   &   Functionality   &&
+       Egenskaber, ydeevne, sikkerhed                   \\
+       \hline
 
-       \textbf{U}   &   Usability       &
+       \textbf{U}   &   Usability       &&
        Menneskelige faktorer, hjælp, dokumentation      \\
+       \hline
 
-       \textbf{R}   &   Reliability     &
-       Fejlfrekvens, fejlretning, forudsigelighed     \\
+       \textbf{R}   &   Reliability     &&
+       Fejlfrekvens, fejlretning, forudsigelighed       \\
+       \hline
 
-       \textbf{P}   &   Performance     &
-       Svartider, nøjagtighed, ydeevne, ressourceforbrug     \\
-       \textbf{S}   &   Supportability  &
-       Anvendelighed, tilpasningsevne, vedligeholdbarhed     \\
-       \textbf{+}   &                   &     \\
+       \textbf{P}   &   Performance     &&
+       Svartider, nøjagtighed, ydeevne, ressourceforbrug                                                      \\
+       \hline
 
-       &   Implementation: &   Ressourcebegrænsninger, sprog og værktøjer, hardware   \\
+       \textbf{S}   &   Supportability  &&
+       Anvendelighed, tilpasningsevne, vedligeholdbarhed                                                      \\
+       \hline
 
-       &   Interface:      &   Begrænsninger forårsaget af kommunikation med eksterne systemer     \\
+       \textbf{+}   &                   &&              \\
 
-       &   Operations:     &   Systemstyring i dets operationelle ramme  \\
+       &&   Implementation: &   Ressourcebegrænsninger, sprog og værktøjer, hardware                     \\
 
-       &   Packaging:      &   F.eks. en fysisk boks  \\
+       &&   Interface:      &   Begrænsninger forårsaget af kommunikation med eksterne systemer              \\
 
-       &    Legal:         &   F.eks. licenser  \\\\
-\end{tabular}
-\end{center}
+       &&   Operations:     &   Systemstyring i dets operationelle ramme                              \\
+
+       &&   Packaging:      &   F.eks. en fysisk boks   \\
+
+       &&    Legal:         &   F.eks. licenser       \\
+       \hline
+\end{tabular}}
+\end{figure*}
+
+På denne måde kan vi så klassificere de enkelte krav:
+\\\\\textbf{Functionality:}
+\\ 2. Spillerne starter med en pengebeholdning på 1000kr og vinder ved 3000kr.
+\\ 3. Spilleren og hans pengebeholdning skal kunne bruges i andre spil.
+\\\\\textbf{Usability:}
+\\1. Spillet spilles af 2 spillere.
+\\ 5. Hvert felt skal påvirke spillerens pengebeholdning forskelligt, og have en udskrift om hvilket felt han ramte.
+\\ 6. Hvis en spiller slår summen 10, tildeles denne spiller en ekstra tur.
+\\\\\textbf{Performance:}
+\\9. Spillet skal kunne spilles uden bemærkelsesværdige forsinkelser
+\\\\\textbf{Supportability:}
+\\ 3. Spilleren og hans pengebeholdning skal kunne bruges i andre spil.
+\\ 7. Det skal være let at skifte til andre terninger.
+\\ 8. Spillet skal kunne let oversættes til andre sprog
+\\ 10. Det skal være muligt at kunne arbejde videre på systemet samt følge hvordan udviklingen er foregået.
+\\\\\textbf{(+) - Implementation:}
+\\ 8. Spillet skal kunne let oversættes til andre sprog
+\\\\\\\\\textbf{(+) - Interface:}
+\\ 4. Spillet skal indeholde 12 felter, svarende til summen af terningerne (2-12), der vil altså kun være 11 brugbare felter, da man ikke kan slå 1 med 2 terninger.
 
 \subsubsection{MoSCoW}
 MoSCoW, som kan bruges til at prioitere krav. \\\\
