@@ -4,6 +4,10 @@
 
 \section{Klassediagram}
 
+\noindent Et klassediagram er et statisk struktur diagram som repræsenterer et systems struktur ved at beskrive systemets klasser, deres tilhørende attributter, metoder samt forhold mellem andre objekter.\\
+
+\noindent Et klassediagram der repræsenterer strukturen på vore spil kan ses på figur 5.1. Som nævnt tidligere i analyse afsnittet og som det kan ses af klassediagrammet så har vi primært fem klasser at gøre godt med. På diagrammet er det muligt at observerer at de fleste operationer er public, med et minoritet der er private. Det er også værd at nævne at vi har ingen beskyttede (protected) operationer. Hvad angår relationer så har vi et spil der tilhører et sprog (language) hvilket betyder at mens spillet kører er det ikke muligt at have flere sprog indstillet af gangen. I forhold til terningerne, så kan et spil tilhører to terninger, hvor så to terninger kun kan tilhøre et spil. Samme opsætning gælder også for spillerne (Player), hvor så et spil tilhører to spillerer, mens to spillerer kun kan tilhøre et spil. Sidst men ikke mindst så kan en pengebeholdning kun tilhøre en spillerer, og modsat kan en spillerer kun tilhøre en pengebeholdning.\\
+
 \begin{figure}[H]
     \begin{center}
         \includegraphics[width=15cm]{graphics/Class_Diagram.png}
@@ -14,6 +18,10 @@
 
 
 \section{Flowdiagram}
+
+\noindent Et flowdiagram repræsenterer et flow eller et sæt af dynamisk forhold i et system. Det nedenstående flowdiagram repræsenterer strukuren i hvordan og hvorledes spillet skrider an.\\
+
+\noindent Først og frememst startes spillet, efterfulgt af at der kastes med terningerne og en værdi fastslås. Efterfølgende beregnes summen af de to værdier fra de to terninger og resultatet bestemmer et felt. Dette felt giver på baggrund af værdi en positiv eller negativ indflydelse på pengebeholdning/pointsum. Er pointsummen større end 3000, afsluttes spillet. Er pointsummen mindre end 3000 bliver det den næste spillers tur, hvorpå terningerne kastes igen og den samme process gentages indtil kriteriet på 3000 i pointsum opfyldes.\\
 
 \begin{tikzpicture}[node distance=2cm]
 \node (start) [startstop] {Spillet startes};
@@ -30,4 +38,4 @@
 \draw [arrow] (hvis) -- node[anchor=east] {Ja} (vinder);
 \draw [arrow] (hvis) -| node[anchor=north] {Nej}  (nyspiller);
 \draw [arrow] (nyspiller) |- (kast);
-\end{tikzpicture} 
+\end{tikzpicture}
