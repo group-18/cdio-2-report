@@ -1,0 +1,127 @@
+\chapter{Dokumentation af kode}
+
+\noindent For at kunne skabe et passende overblik over hvordan og hvorledes koden er konstrureret, har vi valgt at dele dokumentationen op i nogle overordnede kategorier, som refklekterer spillets forskellige aspekter. Der er tale om klasserne main, board, dice, game samt en tekstfil der indeholder oversættelsen.\\
+
+\section{Main}
+\noindent Main klassen anses for at være et typisk startspunkt ved opstartskonfigurationer i Java applikationer. Et godt råd når det kommer til kodning i Java, er at holde main metoden så vidt som muligt kodefri, forstået således at kun den nødvendig kode som tillader programmet at starte skal finde sted i main. Følgende er et udrag af vores \textit{Main.java} klasse.\\
+
+\begin{lstlisting}
+    public class Main {
+        public static void main(String[] args) {
+            Translate.setLang("da_DK");
+    
+            Board.boardgame();
+    
+            Game game = new Game();
+            game.askForPlayers(2);
+            game.play();
+        }
+    }    
+\end{lstlisting}
+\vspace{2ex}
+
+\noindent Ved programmets opstart bliver sproget som standard sat til dansk, nemig via oversættelsesfilen da\char`_DK.txt. Eftersom programmet indstiller det valgte sprog, bliver \textit{Board.boardgame} indlæst. Derefter oprettes der et game instans, hvor så to spillerer indtaster navn og spillet går i gang.\\
+
+\section{Board og feltlister}
+\noindent Spillet gør brug af en tidligere udført GUI til visuel fremvisning af spillerer, brikker samt andre vigtige meddelelser. Den udleverede GUI skulle gennemgå nogle ændringer før, at den kunne vise sig at være brugbar i vores projekt. Følgende er et udrag af vores \textit{Board.java} klasse.\\
+\begin{lstlisting}
+public class Board {
+    public static void boardgame()
+    {
+    import desktop_fields.Street;
+    import desktop_fields.Field;
+    import desktop_resources.*;
+    import java.awt.*;
+        
+    //Eksempel paa et felt
+    Field[] fields = new Field[12];
+        fields[3] = new Street.Builder()
+        .setTitle("Palace gates")
+        .setBgColor(Color.GREEN)
+        .setSubText("+100")
+        .setDescription(Translate.t("field.palace_gates.description"))
+        .build();
+        ...
+        GUI.create(fields);
+    }
+}        
+\end{lstlisting}
+\vspace{2ex}
+
+\noindent For at kunne bruge GUI'en i vores projekt skulle vi udfører et par modifikationer, for at få front- og bakend til spille sammen. Først og fremmest importerede vi \textit{desktop\char`_resources} samt \textit{desktop\char`_fields- .Street og .Field}, hvilket tillod os at hente informationer vedrørende struktur, layout(udseende) m.m. fra den vedlagte GUI. Eftersom at henvisningerne til de nødvendige ressourcer er etableret, kan vi begynde med at indføre de opkrævede felter. Dette opnås ved at lave et array ved navn fields bestående af 12 felter. Et felt består sådan set af en titel, baggrundsfarve, subtekst som bruges til indikering af værdi, beskrivelse af felt hvor i der henvises til oversættelsesfilen samt kommandoen build. \textit{GUI.create(fields);} metoden tager udgangspunkt i de 11 fields (felt 0 også regnet med, dvs 12) og derefter skaber visuelt de omtalte felter ved brug af \textit{GUI.create} metoden på brættet.\\
+
+\section{Dice}
+\noindent Terningesæt i dette projekt består af terninger. Følgende er et udrag af vores \textit{Dice.java} og \textit{DiceCup.java} klasse.\\
+\begin{lstlisting}
+    //Klassen 'Dice'    
+    public class Dice {
+        private int faceValue;
+        public void roll()
+        {
+            this.faceValue = (int) (Math.random() * 6) + 1;
+        }
+    
+        public int getFaceValue()
+        {
+            return this.faceValue;
+        }
+    }
+    //Klassen 'DiceCup'
+    public class DiceCup {
+        private Dice d1;
+        private Dice d2;
+
+        public DiceCup()
+        {
+            this.d1 = new Dice();
+            this.d2 = new Dice();
+        }
+    
+        public void roll()
+        {
+            this.d1.roll();
+            this.d2.roll();
+        }
+    
+        public int getSum()
+        {
+            return this.d1.getFaceValue() + this.d2.getFaceValue();
+        }
+    }
+\end{lstlisting}
+\vspace{2ex}
+
+\noindent Tekst.\\
+
+\section{Game}
+\noindent Følgende er et udrag af vores \textit{Game.java} klasse.\\
+\begin{lstlisting}
+    public class Dice {
+        private int faceValue;
+
+        public void roll()
+        {
+            this.faceValue = (int) (Math.random() * 6) + 1;
+        }
+        public int getFaceValue()
+        {
+            return this.faceValue;
+        }
+    }
+\end{lstlisting}
+\vspace{2ex}
+
+\noindent Tekst.\\
+
+\section{Oversættelser}
+\noindent Følgende er et udrag af vores \textit{Game.java} samt \textit{Translate.java} klasse og \textit{da\char`_DK.txt} oversættelses tekst fil.\\
+\begin{lstlisting}
+    welcome1:Velkommen.
+    turn.currentPlayer:Det er {{ #0 }}s tur.
+    field.the_pit.description:Du fortryder lidt, at du har brugt saa
+    lang tid paa at gaa ned i et hul, men du manglede en achievement.    
+    scoreboard.title:-- Resultat --    
+\end{lstlisting}
+\vspace{2ex}
+
+\noindent Tekst.\\
