@@ -63,41 +63,29 @@ Et felt består sådan set af en titel, baggrundsfarve, subtekst som bruges til 
 
 \section{Dice}
 \noindent Terningesæt i dette projekt består af terninger. 
-Følgende er et udrag af vores \textit{Dice.java} og \textit{DiceCup.java} klasse.\\
+Følgende er et udrag af vores \textit{Dice.java}\\
 \begin{lstlisting}
     //Klassen 'Dice'    
     public class Dice {
         private int faceValue;
+        private int numberOfEyes;
+
+        public Dice(int numberOfEyes){
+            this.numberOfEyes = numberOfEyes;
+        }
+
         public void roll()
         {
-            this.faceValue = (int) (Math.random() * 6) + 1;
+            this.faceValue = (int) (Math.random() * numberOfEyes) + 1;
         }
-    
+
+        public int getNumberOfEyes(){
+            return this.numberOfEyes;
+        }
+
         public int getFaceValue()
         {
             return this.faceValue;
-        }
-    }
-    //Klassen 'DiceCup'
-    public class DiceCup {
-        private Dice d1;
-        private Dice d2;
-
-        public DiceCup()
-        {
-            this.d1 = new Dice();
-            this.d2 = new Dice();
-        }
-    
-        public void roll()
-        {
-            this.d1.roll();
-            this.d2.roll();
-        }
-    
-        public int getSum()
-        {
-            return this.d1.getFaceValue() + this.d2.getFaceValue();
         }
     }
 \end{lstlisting}
