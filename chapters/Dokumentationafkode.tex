@@ -126,7 +126,10 @@ Følgende er et udrag af vores \textit{Stash.java} klasse.\\
 
 \noindent Et af kravne var at spillerne startede med en pengebeholdning på 1000.
 Dette opnås således ved at definerer en privat integer ved navn \textit{amount}, med en startsværdi på 1000.
-Efterfølgende kan der ved brug af \textit{getAmount} returneres den nuværende pengebeholdning.\\
+Efterfølgende kan der ved brug af \textit{getAmount} returneres den nuværende pengebeholdning.
+For at kunne tilføje til pengebeholdningen indfører vi metoden \textit{addAmount}, med et parameter ved navn \textit{numberToAdd}.
+Et if-else statement kører netop som det første i \textit{addAmount} metoden, hvorpå sålænge \textit{this.amount} adderet med \textit{numberToAdd} er mindre end 0, så sættes \textit{this.amount} til at være ligemed 0.
+Derimod hvis \textit{this.amount} adderet med \textit{numberToAdd} er større end 0, tilføjes beløbet til pengebeholdning.\\
 
 \section{Player, spiller}
 \noindent Følgende er et udrag af vores \textit{Player.java} klasse.\\
