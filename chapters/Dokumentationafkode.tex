@@ -62,7 +62,7 @@ Et felt består sådan set af en titel, baggrundsfarve, subtekst som bruges til 
 \textit{GUI.create(fields);} metoden tager udgangspunkt i de 11 fields (felt 0 også regnet med, dvs 12) og derefter skaber visuelt de omtalte felter ved brug af \textit{GUI.create} metoden på brættet.\\
 
 \section{Dice}
-\noindent Terningesæt i dette projekt består af terninger. 
+\noindent Terningesæt i dette projekt består af to terninger. 
 Følgende er et udrag af vores \textit{Dice.java}\\
 \begin{lstlisting}
     //Klassen 'Dice'    
@@ -91,7 +91,15 @@ Følgende er et udrag af vores \textit{Dice.java}\\
 \end{lstlisting}
 \vspace{2ex}
 
-\noindent Tekst.\\
+\noindent Måden som vi har valgt at implementerer terning på således at der startes med definering af en privat integer ved navn \textit{faceValue}.
+Herefter definerer vi også endu en privat integer ved navn \textit{numberOfEyes}.
+Idéen med \textit{numberOfEyes} er at tillade brugen af terninger med specifik øjeantal der er til forskel fra den velkendte 6-sidet terning.
+Vi indfører derefter en metode ved navn \textit{roll}, bestående af \textit{faceValue}.
+Dette svarer så til en \textit{Math.random} funktion der multipliceres med \textit{numberOfEyes} og efterfølgende adderes med 1.
+Når der skal rulles med terningerne tages der udgangspunkt i metoden \textit{roll}.
+En public integer ved navn \textit{getNumberOfEyes} returner \textit{this.numberOfEyes}.
+En tilsvarende funktion, \textit{getFaceValue}, returner \textit{this.faceValue}.
+\textit{getNumberOfEyes} og \textit{getFaceValue} giver information om øjeantal samt den slået værdi.\\
 
 \section{Game}
 \noindent Følgende er et udrag af vores \textit{Game.java} klasse.\\
