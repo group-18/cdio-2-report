@@ -61,9 +61,9 @@ Dette opnås ved at lave et array ved navn fields bestående af 12 felter.
 Et felt består sådan set af en titel, baggrundsfarve, subtekst som bruges til indikering af værdi, beskrivelse af felt hvor i der henvises til oversættelsesfilen samt kommandoen build. 
 \textit{GUI.create(fields);} metoden tager udgangspunkt i de 11 fields (felt 0 også regnet med, dvs 12) og derefter skaber visuelt de omtalte felter ved brug af \textit{GUI.create} metoden på brættet.\\
 
-\section{Dice}
+\section{Dice, terning}
 \noindent Terningesæt i dette projekt består af to terninger. 
-Følgende er et udrag af vores \textit{Dice.java}\\
+Følgende er et udrag af vores \textit{Dice.java} klasse.\\
 \begin{lstlisting}
     //Klassen 'Dice'    
     public class Dice {
@@ -101,7 +101,66 @@ En public integer ved navn \textit{getNumberOfEyes} returner \textit{this.number
 En tilsvarende funktion, \textit{getFaceValue}, returner \textit{this.faceValue}.
 \textit{getNumberOfEyes} og \textit{getFaceValue} giver information om øjeantal samt den slået værdi.\\
 
-\section{Game}
+\section{Stash, pengebeholdning}
+\noindent Stash eller pengebeholdning udgør det lager hvor spillerenes pengebeholdningen opbevares. 
+Følgende er et udrag af vores \textit{Stash.java} klasse.\\
+\begin{lstlisting}
+    public class Stash {
+        private int amount=1000;
+    
+        public int getAmount(){
+            return this.amount;
+        }
+    
+        public void addAmount(int numberToAdd){
+            if ((this.amount + numberToAdd)<  0){
+                this.amount = 0;
+            }
+            else {
+                this.amount += numberToAdd;
+            }
+        }
+    }    
+\end{lstlisting}
+\vspace{2ex}
+
+\noindent Et af kravne var at spillerne startede med en pengebeholdning på 1000.
+Dette opnås således ved at definerer en privat integer ved navn \textit{amount}, med en startsværdi på 1000.
+Efterfølgende kan der ved brug af \textit{getAmount} returneres den nuværende pengebeholdning.\\
+
+\section{Player, spiller}
+\noindent Følgende er et udrag af vores \textit{Player.java} klasse.\\
+\begin{lstlisting}
+    public class Player {
+        private String name;
+        private Stash stash;
+    
+        public Player(String name)
+        {
+            this.name = name;
+            this.stash = new Stash();
+        }
+    
+        public String getName()
+        {
+            return this.name;
+        }
+    
+        public int getAmount(){
+            return this.stash.getAmount();
+        }
+    
+        public void addAmount(int numberToAdd)
+        {
+            this.stash.addAmount(numberToAdd);
+        }
+    }       
+\end{lstlisting}
+\vspace{2ex}
+
+\noindent Tekst.\\
+
+\section{Game, spil}
 \noindent Følgende er et udrag af vores \textit{Game.java} klasse.\\
 \begin{lstlisting}
     public class Dice {
@@ -121,7 +180,7 @@ En tilsvarende funktion, \textit{getFaceValue}, returner \textit{this.faceValue}
 
 \noindent Tekst.\\
 
-\section{Oversættelser}
+\section{Translate, oversættelser}
 \noindent Følgende er et udrag af vores \textit{Game.java} samt \textit{Translate.java} klasse og \textit{da\char`_DK.txt} oversættelses tekst fil.\\
 \begin{lstlisting}
     welcome1:Velkommen.
