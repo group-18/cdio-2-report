@@ -3,7 +3,9 @@
 \noindent For at kunne skabe et passende overblik over hvordan og hvorledes koden er konstrureret, har vi valgt at dele dokumentationen op i nogle overordnede kategorier, som refklekterer spillets forskellige aspekter. Der er tale om klasserne main, board, dice, game samt en tekstfil der indeholder oversættelsen.\\
 
 \section{Main}
-\noindent Main klassen anses for at være et typisk startspunkt ved opstartskonfigurationer i Java applikationer. Et godt råd når det kommer til kodning i Java, er at holde main metoden så vidt som muligt kodefri, forstået således at kun den nødvendig kode som tillader programmet at starte skal finde sted i main. Følgende er et udrag af vores \textit{Main.java} klasse.\\
+\noindent Main klassen anses for at være et typisk startspunkt ved opstartskonfigurationer i Java applikationer. 
+Et godt råd når det kommer til kodning i Java, er at holde main metoden så vidt som muligt kodefri, forstået således at kun den nødvendig kode som tillader programmet at starte skal finde sted i main. 
+Følgende er et udrag af vores \textit{Main.java} klasse.\\
 
 \begin{lstlisting}
     public class Main {
@@ -20,10 +22,14 @@
 \end{lstlisting}
 \vspace{2ex}
 
-\noindent Ved programmets opstart bliver sproget som standard sat til dansk, nemig via oversættelsesfilen da\char`_DK.txt. Eftersom programmet indstiller det valgte sprog, bliver \textit{Board.boardgame} indlæst. Derefter oprettes der et game instans, hvor så to spillerer indtaster navn og spillet går i gang.\\
+\noindent Ved programmets opstart bliver sproget som standard sat til dansk, nemlig via oversættelsesfilen da\char`_DK.txt. 
+Eftersom programmet indstiller det valgte sprog, bliver \textit{Board.boardgame} indlæst. 
+Derefter oprettes der et game instans, hvor to spillerer indtaster navn og spillet går i gang.\\
 
 \section{Board og feltlister}
-\noindent Spillet gør brug af en tidligere udført GUI til visuel fremvisning af spillerer, brikker samt andre vigtige meddelelser. Den udleverede GUI skulle gennemgå nogle ændringer før, at den kunne vise sig at være brugbar i vores projekt. Følgende er et udrag af vores \textit{Board.java} klasse.\\
+\noindent Spillet gør brug af en tidligere udført GUI til visuel fremvisning af spillerer, brikker samt andre vigtige meddelelser. 
+Den udleverede GUI skulle gennemgå nogle ændringer før, at den kunne vise sig at være brugbar i vores projekt. 
+Følgende er et udrag af vores \textit{Board.java} klasse.\\
 \begin{lstlisting}
 public class Board {
     public static void boardgame()
@@ -48,10 +54,16 @@ public class Board {
 \end{lstlisting}
 \vspace{2ex}
 
-\noindent For at kunne bruge GUI'en i vores projekt skulle vi udfører et par modifikationer, for at få front- og bakend til spille sammen. Først og fremmest importerede vi \textit{desktop\char`_resources} samt \textit{desktop\char`_fields- .Street og .Field}, hvilket tillod os at hente informationer vedrørende struktur, layout(udseende) m.m. fra den vedlagte GUI. Eftersom at henvisningerne til de nødvendige ressourcer er etableret, kan vi begynde med at indføre de opkrævede felter. Dette opnås ved at lave et array ved navn fields bestående af 12 felter. Et felt består sådan set af en titel, baggrundsfarve, subtekst som bruges til indikering af værdi, beskrivelse af felt hvor i der henvises til oversættelsesfilen samt kommandoen build. \textit{GUI.create(fields);} metoden tager udgangspunkt i de 11 fields (felt 0 også regnet med, dvs 12) og derefter skaber visuelt de omtalte felter ved brug af \textit{GUI.create} metoden på brættet.\\
+\noindent For at kunne bruge GUI'en i vores projekt skulle vi udfører et par modifikationer, for at få front- og bakend til spille sammen. 
+Først og fremmest importerede vi \textit{desktop\char`_resources} samt \textit{desktop\char`_fields- .Street og .Field}, hvilket tillod os at hente informationer vedrørende struktur, layout(udseende) m.m. fra den vedlagte GUI. 
+Eftersom at henvisningerne til de nødvendige ressourcer er etableret, kan vi begynde med at indføre de opkrævede felter. 
+Dette opnås ved at lave et array ved navn fields bestående af 12 felter. 
+Et felt består sådan set af en titel, baggrundsfarve, subtekst som bruges til indikering af værdi, beskrivelse af felt hvor i der henvises til oversættelsesfilen samt kommandoen build. 
+\textit{GUI.create(fields);} metoden tager udgangspunkt i de 11 fields (felt 0 også regnet med, dvs 12) og derefter skaber visuelt de omtalte felter ved brug af \textit{GUI.create} metoden på brættet.\\
 
 \section{Dice}
-\noindent Terningesæt i dette projekt består af terninger. Følgende er et udrag af vores \textit{Dice.java} og \textit{DiceCup.java} klasse.\\
+\noindent Terningesæt i dette projekt består af terninger. 
+Følgende er et udrag af vores \textit{Dice.java} og \textit{DiceCup.java} klasse.\\
 \begin{lstlisting}
     //Klassen 'Dice'    
     public class Dice {
