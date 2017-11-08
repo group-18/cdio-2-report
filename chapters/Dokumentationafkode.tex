@@ -120,7 +120,7 @@ Følgende er et udrag af vores \textit{Stash.java} klasse.\\
                 this.amount += numberToAdd;
             }
         }
-    }    
+    }
 \end{lstlisting}
 \vspace{2ex}
 
@@ -132,7 +132,8 @@ Et if-else statement kører netop som det første i \textit{addAmount} metoden, 
 Derimod hvis \textit{this.amount} adderet med \textit{numberToAdd} er større end 0, tilføjes beløbet til pengebeholdning.\\
 
 \section{Player, spiller}
-\noindent Følgende er et udrag af vores \textit{Player.java} klasse.\\
+\noindent Klassen \textit{Player} udgør struktureren til hvordan og hvorledes spilleren interagerer med omverden samt deres attributter.
+Følgende er et udrag af vores \textit{Player.java} klasse.\\
 \begin{lstlisting}
     public class Player {
         private String name;
@@ -157,11 +158,15 @@ Derimod hvis \textit{this.amount} adderet med \textit{numberToAdd} er større en
         {
             this.stash.addAmount(numberToAdd);
         }
-    }       
+    }     
 \end{lstlisting}
 \vspace{2ex}
 
-\noindent Tekst.\\
+\noindent Ved spillets opstart bliver spillerene 1 og 2 spurgt om et navn.
+Dette opnås ved at gør brug af den indførte metode \textit{name}, hvor så den tilhørende pengebeholdning bindes spilleren via metoden \textit{stash}.
+Derefter defineres via metoden \textit{Player}, at en spiller består af name, med en ny pengebeholdning på 1000.
+Efterfølgende defineres metoder navngivet henholdsvis \textit{getName} og \textit{getAmount} som tager udgangspunkt i \textit{name} og \textit{stash} fra tidligere.
+Sidst men ikke mindst specificerer vi, at metoden \textit{addAmount} med et parameter {numberToAdd}, skal tilføje de givne beløb under \textit{stash} eller pengebeholdning vha. af \textit{addAmount} fra \textit{Stash.java} gennemgået tidligere.\\
 
 \section{Game, spil}
 \noindent Følgende er et udrag af vores \textit{Game.java} klasse.\\
