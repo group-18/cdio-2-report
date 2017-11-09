@@ -192,7 +192,36 @@ Sidst men ikke mindst specificerer vi, at metoden \textit{addAmount} med et para
 I stedet nøjes med kommentarer i selve koden der forklarer metodernes formål.
 Følgende er et udrag af vores \textit{Game.java} klasse.\\
 \begin{lstlisting}
-    //Definering af terninger
+    //Definering af felter samt beskrivelser og vaerdier
+    private String[][] fields = new String[][] {
+        {"tower", "Tower"},
+        {"crater", "Crater"},
+        {"palace_gates", "Palace Gates"},
+        {"cold_desert", "Cold Desert"},
+        {"walled_city", "Walled City"},
+        {"monastery", "Monastery"},
+        {"black_cave", "Black Cave"},
+        {"huts_in_the_mountain", "Huts in the Mountain"},
+        {"the_werewall", "The Werewall (werewolf-wall)"},
+        {"the_pit", "The Pit"},
+        {"goldmine", "Goldmine"},
+    };
+
+    private int[] fieldValues = new int[] {
+        250,
+        -100,
+        100,
+        -20,
+        180,
+        0,
+        -70,
+        60,
+        -80,
+        -50,
+        650,
+    };
+
+    //Definering af terninger til spil
     public Game()
     {
         this.dies = new Dice[] {new Dice(), new Dice()};
@@ -219,31 +248,26 @@ Følgende er et udrag af vores \textit{Game.java} klasse.\\
 
             this.rollDies();
 
-            int fieldNumber = this.sum();
-
             GUI.setCar(fieldNumber, currentPlayer.getName());
             GUI.setDice(this.dies[0].getFaceValue(), 3, 8, ...
              this.dies[1].getFaceValue(), 4, 8);
 
-            this.print(Translate.t("turn.rollResult", ...
-            new String[] {"" + sum()}));
+             int fieldNumber = this.sum() - 2;
+             
+             this.print(new String[] {
+                Translate.t("turn.rollResult", new String[] {"" + sum()}),
+                Translate.t("turn.position", new String[] {this.fields[fieldNumber][1]}),
+                Translate.t("field." + this.fields[fieldNumber][0] + ".description"),
+        });
 
-    switch (fieldNumber) {
-            case 2:
-                this.print(new String[] {
-                    Translate.t("turn.position", new String[] {"Tower"}),
-                    Translate.t("field.tower.description"),
-            });
-            
-            this.print(Translate.t("turn.score", new String[] {"+250"}));
-            currentPlayer.addAmount(250);
-            
-            this.print(Translate.t("turn.scoreCurrent", ...
-            new String[] {"" + currentPlayer.getAmount()}));
+        int score = this.fieldValues[fieldNumber];
+        currentPlayer.addAmount(score);
 
-            break;
-            ... //Samme procedure for case 3, 4 osv.
-    }
+        this.print(new String[] {
+            Translate.t("turn.score", new String[] {"" + (score > 0 ? "+" : "") + score}),
+            Translate.t("turn.scoreCurrent", new String[] {"" + currentPlayer.getAmount()}),
+        });
+
             GUI.setBalance(currentPlayer.getName(),
             currentPlayer.getAmount());
         } while (this.sum() == 10);
@@ -255,7 +279,7 @@ Følgende er et udrag af vores \textit{Game.java} klasse.\\
 
     this.printScoreBoard(currentPlayer);
     }
-
+            
 //Skift mellem spillerer
 private Player getNextPlayer()
 {
