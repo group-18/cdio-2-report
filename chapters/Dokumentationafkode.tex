@@ -1,6 +1,7 @@
 \chapter{Dokumentation af kode}
 
-\noindent For at kunne skabe et passende overblik over hvordan og hvorledes koden er konstrureret, har vi valgt at dele dokumentationen op i nogle overordnede kategorier, som refklekterer spillets forskellige aspekter. Der er tale om klasserne main, board, dice, game samt en tekstfil der indeholder oversættelsen.\\
+\noindent For at kunne skabe et passende overblik over hvordan og hvorledes koden er konstrureret, har vi valgt at dele dokumentationen op i nogle overordnede kategorier, som refklekterer spillets forskellige aspekter. Der er tale om klasserne main, board, dice, game samt en tekstfil der indeholder oversættelsen.
+De steder hvor der ses et '...' (3 punktummer), indikerer en line sammensat linje, dog fordelt over to linjer pga læsevenlighed.\\
 
 \section{Main}
 \noindent Main klassen anses for at være et typisk startspunkt ved opstartskonfigurationer i Java applikationer. 
@@ -18,7 +19,7 @@ Følgende er et udrag af vores \textit{Main.java} klasse.\\
             game.askForPlayers(2);
             game.play();
         }
-    }    
+    }
 \end{lstlisting}
 \vspace{2ex}
 
@@ -69,23 +70,30 @@ Følgende er et udrag af vores \textit{Dice.java} klasse.\\
     public class Dice {
         private int faceValue;
         private int numberOfEyes;
-
-        public Dice(int numberOfEyes){
+    
+        public Dice()
+        {
+            this.numberOfEyes = 6;
+        }
+    
+        public Dice(int numberOfEyes)
+        {
             this.numberOfEyes = numberOfEyes;
         }
-
-        public void roll()
+    
+        public int getNumberOfEyes()
         {
-            this.faceValue = (int) (Math.random() * numberOfEyes) + 1;
-        }
-
-        public int getNumberOfEyes(){
             return this.numberOfEyes;
         }
-
+    
         public int getFaceValue()
         {
             return this.faceValue;
+        }
+    
+        public void roll()
+        {
+            this.faceValue = (int) (Math.random() * this.numberOfEyes) + 1;
         }
     }
 \end{lstlisting}
@@ -106,18 +114,28 @@ En tilsvarende funktion, \textit{getFaceValue}, returner \textit{this.faceValue}
 Følgende er et udrag af vores \textit{Stash.java} klasse.\\
 \begin{lstlisting}
     public class Stash {
-        private int amount=1000;
+        private int amount;
     
-        public int getAmount(){
+        public Stash()
+        {
+        }
+    
+        public Stash(int startAmount)
+        {
+            this.amount = startAmount;
+        }
+    
+        public int getAmount()
+        {
             return this.amount;
         }
     
-        public void addAmount(int numberToAdd){
-            if ((this.amount + numberToAdd)<  0){
+        public void addAmount(int numberToAdd)
+        {
+            this.amount += numberToAdd;
+    
+            if (this.amount < 0) {
                 this.amount = 0;
-            }
-            else {
-                this.amount += numberToAdd;
             }
         }
     }
@@ -142,7 +160,7 @@ Følgende er et udrag af vores \textit{Player.java} klasse.\\
         public Player(String name)
         {
             this.name = name;
-            this.stash = new Stash();
+            this.stash = new Stash(1000);
         }
     
         public String getName()
@@ -150,7 +168,8 @@ Følgende er et udrag af vores \textit{Player.java} klasse.\\
             return this.name;
         }
     
-        public int getAmount(){
+        public int getAmount()
+        {
             return this.stash.getAmount();
         }
     
@@ -176,11 +195,7 @@ Følgende er et udrag af vores \textit{Game.java} klasse.\\
     //Definering af terninger
     public Game()
     {
-     Dice d1 = new Dice(6);
-     Dice d2 = new Dice(6);
-     this.dies = new Dice[2];
-     this.dies[0] = d1;
-     this.dies[1] = d2;
+        this.dies = new Dice[] {new Dice(), new Dice()};
     }
 
     //Start paa spil, Game
@@ -188,27 +203,31 @@ Følgende er et udrag af vores \textit{Game.java} klasse.\\
     this.printWelcomeMessage();
 
     Player currentPlayer;
-    boolean winnerFound = false;
+    boolean winnerFound;
 
     do {
+        currentPlayer = getNextPlayer();
 
-    currentPlayer = getNextPlayer();
+        this.print(Translate.t("turn.currentPlayer", new String[] {currentPlayer.getName()}));
+        //Tilfoejer en knap som eksekverer foelgende while do saetning,...
+        GUI.getUserButtonPressed("", "Kast");
+        
+        //Do while loop som ruller terningen, saetter terningen paa GUI,
+        //saetter bil/spillerposition.
+        do {
+            GUI.removeAllCars(currentPlayer.getName());
 
-    this.print(Translate.t("turn.currentPlayer",
-    new String[] {currentPlayer.getName()}));
-    //Tilfoejer en knap som eksekverer foelgende while do saetning,...
-    GUI.getUserButtonPressed("", "Kast");
-    
-    //Do while loop som ruller terningen, saetter terningen paa GUI,
-    //saetter bil/spillerposition, 
-    do {
-    GUI.removeAllCars(currentPlayer.getName());
-    dies[0].roll();
-    dies[1].roll();
-    GUI.setDice(dies[0].getFaceValue(),3,8,dies[1].getFaceValue(),4,8);
-    int fieldNumber = sum();
-    GUI.setCar(fieldNumber, currentPlayer.getName());
-    this.print(Translate.t("turn.rollResult", new String[] {"" + sum()}));
+            this.rollDies();
+
+            int fieldNumber = this.sum();
+
+            GUI.setCar(fieldNumber, currentPlayer.getName());
+            GUI.setDice(this.dies[0].getFaceValue(), 3, 8, ...
+             this.dies[1].getFaceValue(), 4, 8);
+
+            this.print(Translate.t("turn.rollResult", ...
+            new String[] {"" + sum()}));
+
     switch (fieldNumber) {
             case 2:
                 this.print(new String[] {
@@ -219,25 +238,23 @@ Følgende er et udrag af vores \textit{Game.java} klasse.\\
             this.print(Translate.t("turn.score", new String[] {"+250"}));
             currentPlayer.addAmount(250);
             
-            this.print(Translate.t("turn.scoreCurrent",
+            this.print(Translate.t("turn.scoreCurrent", ...
             new String[] {"" + currentPlayer.getAmount()}));
 
             break;
             ... //Samme procedure for case 3, 4 osv.
     }
-    GUI.setBalance(currentPlayer.getName(),currentPlayer.getAmount());
-    }
-    while (sum()==10);
-    //Saa laenge at pengebeholdning er mindre eller lig med 3000,
-    //saa kaares en vinder og spillet slutter
-    if (currentPlayer.getAmount() >= 3000) {
-        winnerFound = true;
-    }
-}
-while (!winnerFound);
+            GUI.setBalance(currentPlayer.getName(),
+            currentPlayer.getAmount());
+        } while (this.sum() == 10);
+        
+        //Saa laenge at pengebeholdning er mindre eller lig med 3000,
+        //saa kaares en vinder og spillet slutter
+        winnerFound = currentPlayer.getAmount() >= 3000;
+    } while (! winnerFound);
 
-this.printScoreBoard(currentPlayer);
-}
+    this.printScoreBoard(currentPlayer);
+    }
 
 //Skift mellem spillerer
 private Player getNextPlayer()
@@ -258,23 +275,40 @@ private void printScoreBoard(Player winningPlayer)
     for (int i = 1; i <= this.players.length; i++) {
         Player player = this.players[i - 1];
 
-        scoreboardText[i] = " - " + player.getName()
-         + ": " + player.getAmount();
+        scoreboardText[i] = " - " + player.getName() + ": ...
+         " + player.getAmount();
 
         if (player == winningPlayer) {
-           
-        scoreboardText[i] = scoreboardText[i] + " " 
+            scoreboardText[i] = scoreboardText[i] + " " ...
             + Translate.t("scoreboard.winnerText");
         }
     }
 
     scoreboardText[this.players.length + 1] =
-    Translate.t("scoreboard.winner",
-    new String[] {winningPlayer.getName()});
-
+    Translate.t("scoreboard.winner", new String[] ...
+    {winningPlayer.getName()});
     this.print(String.join("\n", scoreboardText));
 }
 
+//Sum af terninger
+private int sum()
+{
+    int sum = 0;
+
+    for (Dice dice : this.dies) {
+        sum += dice.getFaceValue();
+    }
+
+    return sum;
+}
+
+//Metode til rull af terning
+private void rollDies()
+{
+    for (Dice dice : this.dies) {
+        dice.roll();
+    }
+}
 \end{lstlisting}
 \vspace{2ex}
 
@@ -285,14 +319,16 @@ Følgende er et udrag af vores \textit{Game.java} samt \textit{Translate.java} k
 \begin{lstlisting}
     public class Translate {
         private static Translate instance;
+        
         //Saetter standard sprog til at vaere dansk
         private static String lang = "da_DK";
+        
         private HashMap<String, String> translations;
 
         //Metode som indlaeser oversaettelser fra tekst fil
         private Translate()
         {
-            this.translations = new HashMap<String, String>();
+            this.translations = new HashMap<String, String>(); ...
             this.parseFile("/languages/" + Translate.getLang() + ".txt");
         }
         
