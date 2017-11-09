@@ -169,34 +169,145 @@ Efterfølgende defineres metoder navngivet henholdsvis \textit{getName} og \text
 Sidst men ikke mindst specificerer vi, at metoden \textit{addAmount} med et parameter {numberToAdd}, skal tilføje de givne beløb under \textit{stash} eller pengebeholdning vha. af \textit{addAmount} fra \textit{Stash.java} gennemgået tidligere.\\
 
 \section{Game, spil}
-\noindent Følgende er et udrag af vores \textit{Game.java} klasse.\\
+\noindent Følgende klasse indeholder større metoder sammenlignet med de andre klasser, hvor så det ikke er helt så praktisk, at give en fyldig beskrive af klassen.
+I stedet nøjes med kommentarer i selve koden der forklarer metodernes formål.
+Følgende er et udrag af vores \textit{Game.java} klasse.\\
 \begin{lstlisting}
-    public class Dice {
-        private int faceValue;
+    //Definering af terninger
+    public Game()
+    {
+     Dice d1 = new Dice(6);
+     Dice d2 = new Dice(6);
+     this.dies = new Dice[2];
+     this.dies[0] = d1;
+     this.dies[1] = d2;
+    }
 
-        public void roll()
-        {
-            this.faceValue = (int) (Math.random() * 6) + 1;
+    //Start paa spil, Game
+    public void play() {
+    this.printWelcomeMessage();
+
+    Player currentPlayer;
+    boolean winnerFound = false;
+
+    do {
+
+    currentPlayer = getNextPlayer();
+
+    this.print(Translate.t("turn.currentPlayer",
+    new String[] {currentPlayer.getName()}));
+    //Tilfoejer en knap som eksekverer foelgende while do saetning,...
+    GUI.getUserButtonPressed("", "Kast");
+    
+    //Do while loop som ruller terningen, saetter terningen paa GUI, saetter bil/spillerposition, 
+    do {
+    GUI.removeAllCars(currentPlayer.getName());
+    dies[0].roll();
+    dies[1].roll();
+    GUI.setDice(dies[0].getFaceValue(),3,8,dies[1].getFaceValue(),4,8);
+    int fieldNumber = sum();
+    GUI.setCar(fieldNumber, currentPlayer.getName());
+    this.print(Translate.t("turn.rollResult", new String[] {"" + sum()}));
+    switch (fieldNumber) {
+            case 2:
+                this.print(new String[] {
+                    Translate.t("turn.position", new String[] {"Tower"}),
+                    Translate.t("field.tower.description"),
+            });
+            
+            this.print(Translate.t("turn.score", new String[] {"+250"}));
+            currentPlayer.addAmount(250);
+            
+            this.print(Translate.t("turn.scoreCurrent",
+            new String[] {"" + currentPlayer.getAmount()}));
+
+            break;
+            ... //Samme procedure for case 3, 4 osv.
+    }
+    GUI.setBalance(currentPlayer.getName(),currentPlayer.getAmount());
+    }
+    while (sum()==10);
+    //Saa laenge at pengebeholdning er mindre eller lig med 3000,
+    //saa kaares en vinder og spillet slutter
+    if (currentPlayer.getAmount() >= 3000) {
+        winnerFound = true;
+    }
+}
+while (!winnerFound);
+
+this.printScoreBoard(currentPlayer);
+}
+
+//Skift mellem spillerer
+private Player getNextPlayer()
+{
+    if (this.playerIndex >= this.players.length) {
+        this.playerIndex = 0;
+    }
+    return this.players[this.playerIndex++];
+}
+
+//Print af scoreboard
+private void printScoreBoard(Player winningPlayer)
+{
+    String[] scoreboardText = new String[this.players.length + 2];
+
+    scoreboardText[0] = Translate.t("scoreboard.title");
+
+    for (int i = 1; i <= this.players.length; i++) {
+        Player player = this.players[i - 1];
+
+        scoreboardText[i] = " - " + player.getName()
+         + ": " + player.getAmount();
+
+        if (player == winningPlayer) {
+           
+        scoreboardText[i] = scoreboardText[i] + " " 
+            + Translate.t("scoreboard.winnerText");
         }
-        public int getFaceValue()
+    }
+
+    scoreboardText[this.players.length + 1] =
+    Translate.t("scoreboard.winner",
+    new String[] {winningPlayer.getName()});
+
+    this.print(String.join("\n", scoreboardText));
+}
+
+\end{lstlisting}
+\vspace{2ex}
+
+\section{Translate, oversættelser}
+\noindent Følgende klasse indeholder større metoder sammenlignet med de andre klasser, hvor så det ikke er helt så praktisk, at give en fyldig beskrive af klassen.
+I stedet nøjes med kommentarer i selve koden der forklarer metodernes formål.
+Følgende er et udrag af vores \textit{Game.java} samt \textit{Translate.java} klasse.
+\begin{lstlisting}
+    public class Translate {
+        private static Translate instance;
+        //Saetter standard sprog til at vaere dansk
+        private static String lang = "da_DK";
+        private HashMap<String, String> translations;
+
+        //Metode som indlaeser oversaettelser fra tekst fil
+        private Translate()
         {
-            return this.faceValue;
+            this.translations = new HashMap<String, String>();
+            this.parseFile("/languages/" + Translate.getLang() + ".txt");
+        }
+        
+        //Metode som returnerer det valgte sprog 
+        public static String getLang()
+        {
+            return Translate.lang;
+        }
+        
+        //Metode der saetter sproget
+        public static void setLang(String lang)
+        {
+            if (! Translate.hasInstance()) {
+                Translate.lang = lang;
+            }
         }
     }
 \end{lstlisting}
 \vspace{2ex}
-
-\noindent Tekst.\\
-
-\section{Translate, oversættelser}
-\noindent Følgende er et udrag af vores \textit{Game.java} samt \textit{Translate.java} klasse og \textit{da\char`_DK.txt} oversættelses tekst fil.\\
-\begin{lstlisting}
-    welcome1:Velkommen.
-    turn.currentPlayer:Det er {{ #0 }}s tur.
-    field.the_pit.description:Du fortryder lidt, at du har brugt saa
-    lang tid paa at gaa ned i et hul, men du manglede en achievement.    
-    scoreboard.title:-- Resultat --    
-\end{lstlisting}
-\vspace{2ex}
-
-\noindent Tekst.\\
