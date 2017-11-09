@@ -26,6 +26,11 @@ Sidst men ikke mindst så kan en pengebeholdning kun tilhøre en spillerer, og m
 
 \section{Sekvens diagram}
 
+For at illustrere flowet dybdegående har vi lavet et sekvens diagram.
+Dette viser flower når brugeren begynder at spille.
+Det skal dog nævnes at der på figuren (figur \ref{fig:sequence_diagram}) kun er tegnet interaktionen med en terning, spiller og stash for at holde diagrammet simpelt.
+Interaktionen mellem Game og klasser sker dobbelt.
+
 \begin{figure}[H]
     \begin{center}
         \includegraphics[width=15cm]{graphics/SSD_Play-Game.png}
@@ -33,6 +38,13 @@ Sidst men ikke mindst så kan en pengebeholdning kun tilhøre en spillerer, og m
         \label{fig:sequence_diagram}
     \end{center}
 \end{figure}
+
+\noindent Det ses at når spilleren starter spillet, laver spillet nye terninger og opretter spillerne i systemet efter den har spurgt efter navne.
+Vi kommer nu ind i game loopet som vil kører indtil vinderen er fundet.
+Det første der her sker er, at den næste spiller findes.
+Terningerne kastes og resultatet for kastet samt feltets oplysninger vises.
+Den nuværende spillers pengebeholdning opdateres og loopet starter forfra.
+Til sidst vises resultatet.
 
 \newpage
 
