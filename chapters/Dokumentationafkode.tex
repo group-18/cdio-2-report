@@ -120,7 +120,68 @@ Derefter defineres via metoden \textit{Player}, at en spiller består af name, m
 Efterfølgende defineres metoder navngivet henholdsvis \textit{getName} og \textit{getAmount} som tager udgangspunkt i \textit{name} og \textit{stash} fra tidligere.
 Sidst men ikke mindst specificerer vi, at metoden \textit{addAmount} med et parameter {numberToAdd}, skal tilføje de givne beløb under \textit{stash} eller pengebeholdning vha. af \textit{addAmount} fra \textit{Stash.java} gennemgået tidligere.\\
 
+
 \subsection{Translate, oversættelser}
-\noindent Følgende klasse indeholder større metoder sammenlignet med de andre klasser, hvor så det ikke er helt så praktisk, at give en fyldig beskrive af klassen.
-I stedet nøjes med kommentarer i selve koden der forklarer metodernes formål.
-Følgende er et udrag af vores \textit{Game.java} samt \textit{Translate.java} klasse.
+
+For bedst muligt at kunne håndtere oversættelser til flere sprog, er der lavet en Translate klasse.
+Denne har til formål at parse en fil med key : value pairs af oversættelser, samt kunne give den rigtige oversættelse.
+Vi har valgt at forklare det vigtigste i klassen herefter.
+\\
+
+\noindent Dette foregår ved at filen bliver indlæst og parset udfra en struktur hvor oversættelses filen er sat op som \lstinline{key:translation}.
+Dette sker i metode \lstinline{parseFile(String filePath)} som kan ses nedenfor.
+
+\begin{lstlisting}
+private void parseFile(String filePath)
+{
+    try {
+        InputStream in = this.getClass().getResourceAsStream(filePath);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+        String currentLine;
+        while ((currentLine = reader.readLine()) != null) {
+            if (currentLine.equals("")) {
+                continue;
+            }
+
+            String[] keyValue = currentLine.split(":", 2);
+
+            String key = keyValue[0];
+            String val = keyValue.length == 1 ? "" : this.parseValue(keyValue[1]);
+
+            if (! this.translations.containsKey(key)) {
+                this.translations.put(key, val);
+            }
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+\end{lstlisting}
+\vspace{2ex}
+
+\noindent Denne metode indlæser filen fra systemet (linje 3-4) og behandler derefter hver linje som en translation.
+Her splittes linjerne på \lstinline{:} og de bliver gemt i et \lstinline{HashMap}.
+Vi har valgt at gemme alle oversættelserne i memory da performance for læsning af fil ikke er nær så god som ved læsning fra memory.
+\\
+
+\noindent Translate klassen består også af metoden \lstinline{t(String key)} som henter en oversættelse ud fra et givent id.
+Denne metode har vi udvidet med en overloaded metode der kan tage et array af strings.
+Dette er gjort ved i selve oversættelsen at sætte \lstinline!{{ #0 }}! ind (0 skal være index i det arrayet man sender med).
+I metoden benyttes regex (se linje 7 i udsnit fra koden nedenfor) til at finde og replace i oversættelsen før den sendes retur.
+
+\begin{lstlisting}
+public String t(String key, String[] variables)
+{
+    String translation = this.t(key);
+
+    if (! translation.equals(key)) {
+        for (int i = 0; i < variables.length; i++) {
+            translation = translation.replaceAll("\\{\\{ ?#" + i + " ?\\}\\}", variables[i]);
+        }
+    }
+
+    return translation;
+}
+\end{lstlisting}
+\vspace{2ex}
