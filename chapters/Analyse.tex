@@ -8,14 +8,14 @@ I dette kapitel vil vi gennemgå kravspecifikation til programmet, samt optegne 
 
 \begin{enumerate}
     \item Spillet spilles af 2 spillere.
-    \item Spillerne starter med en pengebeholdning på 1000kr og vinder ved 3000kr.
+    \item Spillerne starter med en pengebeholdning på 1000kr og vinder, når pengebeholdning er 3000kr.
     \item Spilleren og hans pengebeholdning skal kunne bruges i andre spil.
-    \item Spillet skal indeholde 12 felter, svarende til summen af terningerne (2-12), der vil altså kun være 11 brugbare felter, da man ikke kan slå 1 med 2 terninger.
+    \item Spillet skal indeholde 12 felter, svarende til summen af terningerne (2-12), der vil altså kun være 11 brugbare felter, da man ikke kan slå 1 med to terninger.
     \item Hvert felt skal påvirke spillerens pengebeholdning forskelligt, og have en udskrift om hvilket felt han ramte.
     \item Hvis en spiller slår summen 10, tildeles denne spiller en ekstra tur.
     \item Det skal være let at skifte til andre terninger.
-    \item Spillet skal kunne let oversættes til andre sprog
-    \item Spillet skal kunne spilles uden bemærkelsesværdige forsinkelser
+    \item Det skal kunne oversættes til andre sprog.
+    \item Spillet skal kunne spilles uden bemærkelsesværdige forsinkelser.
     \item Det skal være muligt at kunne arbejde videre på systemet samt følge hvordan udviklingen er foregået.
     \\
 \end{enumerate}
@@ -29,7 +29,7 @@ I dette kapitel vil vi gennemgå kravspecifikation til programmet, samt optegne 
     \begin{tabular}{ | l | p{13cm} |}
     \hline
     \textbf{Interresent} & \textbf{Interesse / Mål} \\ \hline
-    Spiller/-e & Kunne styre et system, der styrer et spil mellem 2 personer, 
+    Spiller/-e & Kunne styre et system, der styrer et spil mellem to personer, 
     hvor i der kastes med et raflebæger med to terninger i, og ser resultatet af dette slag med det samme, herefter skal summen af dette slag fortælle, hvilket felt spilleren landte på.\\ \hline
     \hline
     \end{tabular}
@@ -94,7 +94,7 @@ Der er derfor kun denne ene use case visualiseret.
 \section{Domænemodel}
 
 Der er til projektet udarbejdet en domænemodel for at klarlægge projektets domæne.
-Det ses her (figur \ref{fig:domaenemodel}, at spillet består af forskellige elementer som hver har deres forbindelse.
+Det ses her (figur \ref{fig:domaenemodel}), at spillet består af forskellige elementer som hver har deres forbindelse.
 Hele domænet er omfattet af et spil (Game) som består af sprog (Language), terninger (Dice), spillere (Player) og en pengebeholdning (Stash).\\
 
 
