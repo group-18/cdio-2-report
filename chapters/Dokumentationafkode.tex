@@ -237,7 +237,8 @@ Følgende er et udrag af vores \textit{Game.java} klasse.\\
     do {
         currentPlayer = getNextPlayer();
 
-        this.print(Translate.t("turn.currentPlayer", new String[] {currentPlayer.getName()}));
+        this.print(Translate.t("turn.currentPlayer", ...
+         new String[] {currentPlayer.getName()}));
         //Tilfoejer en knap som eksekverer foelgende while do saetning,...
         GUI.getUserButtonPressed("", "Kast");
         
@@ -255,17 +256,22 @@ Følgende er et udrag af vores \textit{Game.java} klasse.\\
              int fieldNumber = this.sum() - 2;
              
              this.print(new String[] {
-                Translate.t("turn.rollResult", new String[] {"" + sum()}),
-                Translate.t("turn.position", new String[] {this.fields[fieldNumber][1]}),
-                Translate.t("field." + this.fields[fieldNumber][0] + ".description"),
+                Translate.t("turn.rollResult", ...
+                 new String[] {"" + sum()}),
+                Translate.t("turn.position", new String[] ...
+                 {this.fields[fieldNumber][1]}),
+                Translate.t("field." + this.fields[fieldNumber][0] ...
+                  + ".description"),
         });
 
         int score = this.fieldValues[fieldNumber];
         currentPlayer.addAmount(score);
 
         this.print(new String[] {
-            Translate.t("turn.score", new String[] {"" + (score > 0 ? "+" : "") + score}),
-            Translate.t("turn.scoreCurrent", new String[] {"" + currentPlayer.getAmount()}),
+            Translate.t("turn.score", new String[] {"" + ...
+             (score > 0 ? "+" : "") + score}),
+            Translate.t("turn.scoreCurrent", new String[] {"" ...
+             + currentPlayer.getAmount()}),
         });
 
             GUI.setBalance(currentPlayer.getName(),
