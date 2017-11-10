@@ -1,24 +1,20 @@
 \section{Dokumentation af kode}
 
-\noindent For at kunne skabe et passende overblik over hvordan og hvorledes koden er konstrureret, har vi valgt at dele dokumentationen op i nogle overordnede kategorier, som reflekterer spillets forskellige aspekter. Der er tale om klasserne Main, Board, Dice, Game samt en tekstfil, der indeholder oversættelsen.
-Til indikation af tekstombryd i koden vil følgende symbol bruges '...'.\\
+\noindent For at kunne skabe et passende overblik over hvordan og hvorledes koden er konstrureret, har vi valgt at dele dokumentationen op i nogle overordnede kategorier, som reflekterer spillets forskellige aspekter.
+Der er tale om klasserne Main, Board, Dice, Game samt en tekstfil, der indeholder oversættelsen.
+
 
 \subsection{Main, Game og Board}
-\noindent Main klassen anses for at være et typisk startspunkt ved opstartskonfigurationer i Java applikationer. 
-Et godt råd når det kommer til kodning i Java, er at holde main metoden så vidt som muligt kodefri, forstået således at kun den nødvendig kode som tillader programmet at starte skal finde sted i main. 
-Følgende er et udrag af vores \textit{Main.java} klasse.\\
+Main klassens formål er at danne ramme om applikationen.
+Dette gøres bedst ved kun at bruge den til at sætte konfigurationer op samt statte de vigtige dele i applikationen.
+I vores tilfælde er dette Game klassen hvor den også kører nædvendige metoder herpå for at komme i gang.
+\\
 
-\noindent Ved programmets opstart bliver sproget som standard sat til dansk, nemlig via oversættelsesfilen da\char`_DK.txt. 
-Eftersom programmet indstiller det valgte sprog, bliver \textit{Board.boardgame} indlæst. 
-Derefter oprettes der et game instans, hvor to spillerer indtaster navn og spillet går i gang.\\
-
-\textbf{\large Game} \\
-\noindent Følgende klasse indeholder større metoder sammenlignet med de andre klasser, hvor så det ikke er helt så praktisk, at give en fyldig beskrive af klassen.
-I stedet nøjes med kommentarer i selve koden der forklarer metodernes formål.
-Følgende er et udrag af vores \textit{Game.java} klasse.\\
+\noindent\textbf{Game} \\
+Vi har valgt at give et udsnit af Game klassen, nemlig vores \lstinline{play()} metode.
+Denne metode står for hele flowet i applikationen og afspejler implementeringen i sekvens diagrammet som ses på figur \ref{fig:sequence_diagram}.
 
 \begin{lstlisting}
-//Start paa spil, Game
 public void play() {
     this.printWelcomeMessage();
 
@@ -28,44 +24,37 @@ public void play() {
     do {
         currentPlayer = getNextPlayer();
 
-        this.print(Translate.t("turn.currentPlayer", ...
-         new String[] {currentPlayer.getName()}));
-        //Tilfoejer en knap som eksekverer foelgende while do saetning,...
+        this.print(this.translate.t("turn.currentPlayer", new String[] {currentPlayer.getName()}));
+
         GUI.getUserButtonPressed("", "Kast");
-        
-        //Do while loop som ruller terningen, saetter terningen paa GUI, ...
-        //saetter bil/spillerposition.
+
         do {
             GUI.removeAllCars(currentPlayer.getName());
 
             this.rollDies();
 
-            GUI.setCar(fieldNumber, currentPlayer.getName());
-            GUI.setDice(this.dies[0].getFaceValue(), 3, 8, ...
-            this.dies[1].getFaceValue(), 4, 8);
+            GUI.setCar(this.sum(), currentPlayer.getName());
+            GUI.setDice(this.dies[0].getFaceValue(), 3, 8, this.dies[1].getFaceValue(), 4, 8);
 
             int fieldNumber = this.sum() - 2;
-             
+
             this.print(new String[] {
-                Translate.t("turn.rollResult", new String[] {"" + sum()}),
-                Translate.t("turn.position", new String[] {this.fields[fieldNumber][1]}),
-                Translate.t("field." + this.fields[fieldNumber][0] + ".description"),
+                    this.translate.t("turn.rollResult", new String[] {"" + sum()}),
+                    this.translate.t("turn.position", new String[] {this.fields[fieldNumber][1]}),
+                    this.translate.t("field." + this.fields[fieldNumber][0] + ".description"),
             });
 
             int score = this.fieldValues[fieldNumber];
             currentPlayer.addAmount(score);
 
             this.print(new String[] {
-                Translate.t("turn.score", new String[] {"" (score > 0 ? "+" : "") + score}),
-                Translate.t("turn.scoreCurrent", new String[] {""+ currentPlayer.getAmount()}),
+                this.translate.t("turn.score", new String[] {"" + (score > 0 ? "+" : "") + score}),
+                this.translate.t("turn.scoreCurrent", new String[] {"" + currentPlayer.getAmount()}),
             });
 
-            GUI.setBalance(currentPlayer.getName(),
-            currentPlayer.getAmount());
+            GUI.setBalance(currentPlayer.getName(),currentPlayer.getAmount());
         } while (this.sum() == 10);
-        
-        //Saa laenge at pengebeholdning er mindre eller lig med 3000,
-        //saa kaares en vinder og spillet slutter
+
         winnerFound = currentPlayer.getAmount() >= 3000;
     } while (! winnerFound);
 
@@ -74,54 +63,43 @@ public void play() {
 \end{lstlisting}
 \vspace{2ex}
 
-\textbf{\large Board}\\
+\noindent Metoden er bygget op på to do/while loops som sørger for at hente den næste spiller, kaste terningerne samt udskrive resultatet af kastet og det felt man er landet på.
+Det inderste loop (fra linje 14 til 39) eksistere så vi kan give samme spiller en ekstra tur når han/hun rammer felt 10.
+Det yderste loop sikrer at hente spilleren og tjekke om han/hun har vundet.
+\\
 
-\noindent Spillet gør brug af en tidligere udført GUI til visuel fremvisning af spillerer, brikker samt andre vigtige meddelelser. 
-Den udleverede GUI skulle gennemgå nogle ændringer før, at den kunne vise sig at være brugbar i vores projekt. 
-Følgende er et udrag af vores \textit{Board.java} klasse.\\
+\noindent\textbf{Board}\\
 
-\noindent For at kunne bruge GUI'en i vores projekt skulle vi udfører et par modifikationer, for at få front- og bakend til spille sammen. 
-Først og fremmest importerede vi \textit{desktop\char`_resources} samt \textit{desktop\char`_fields- .Street og .Field}, hvilket tillod os at hente informationer vedrørende struktur, layout(udseende) m.m. fra den vedlagte GUI. 
-Eftersom at henvisningerne til de nødvendige ressourcer er etableret, kan vi begynde med at indføre de opkrævede felter. 
-Dette opnås ved at lave et array ved navn fields bestående af 12 felter. 
-Et felt består sådan set af en titel, baggrundsfarve, subtekst som bruges til indikering af værdi, beskrivelse af felt hvor i der henvises til oversættelsesfilen samt kommandoen build. 
-\textit{GUI.create(fields);} metoden tager udgangspunkt i de 11 fields (felt 0 også regnet med, dvs 12) og derefter skaber visuelt de omtalte felter ved brug af \textit{GUI.create} metoden på brættet.\\
-
-
-\subsection{Dice, terning}
-\noindent Terningesæt i dette projekt består af to terninger.\\
-
-\noindent Måden som vi har valgt at implementerer terning på således at der startes med definering af en privat integer ved navn \textit{faceValue}.
-Herefter definerer vi også endu en privat integer ved navn \textit{numberOfEyes}.
-Idéen med \textit{numberOfEyes} er at tillade brugen af terninger med specifik øjeantal der er til forskel fra den velkendte 6-sidet terning.
-Vi indfører derefter en metode ved navn \textit{roll}, bestående af \textit{faceValue}.
-Dette svarer så til en \textit{Math.random} funktion der multipliceres med \textit{numberOfEyes} og efterfølgende adderes med 1.
-Når der skal rulles med terningerne tages der udgangspunkt i metoden \textit{roll}.
-En public integer ved navn \textit{getNumberOfEyes} returner \textit{this.numberOfEyes}.
-En tilsvarende funktion, \textit{getFaceValue}, returner \textit{this.faceValue}.
-\textit{getNumberOfEyes} og \textit{getFaceValue} giver information om øjeantal samt den slået værdi.\\
-
-\subsection{Stash, pengebeholdning}
-\noindent Stash eller pengebeholdning udgør det lager hvor spillerenes pengebeholdningen opbevares. 
-
-\noindent Et af kravne var at spillerne startede med en pengebeholdning på 1000.
-Dette opnås således ved at definerer en privat integer ved navn \textit{amount}, med en startsværdi på 1000.
-Efterfølgende kan der ved brug af \textit{getAmount} returneres den nuværende pengebeholdning.
-For at kunne tilføje til pengebeholdningen indfører vi metoden \textit{addAmount}, med et parameter ved navn \textit{numberToAdd}.
-Et if-else statement kører netop som det første i \textit{addAmount} metoden, hvorpå sålænge \textit{this.amount} adderet med \textit{numberToAdd} er mindre end 0, så sættes \textit{this.amount} til at være ligemed 0.
-Derimod hvis \textit{this.amount} adderet med \textit{numberToAdd} er større end 0, tilføjes beløbet til pengebeholdning.\\
-
-\subsection{Player, spiller}
-\noindent Klassen \textit{Player} udgør struktureren til hvordan og hvorledes spilleren interagerer med omverden samt deres attributter.
-
-\noindent Ved spillets opstart bliver spillerene 1 og 2 spurgt om et navn.
-Dette opnås ved at gør brug af den indførte metode \textit{name}, hvor så den tilhørende pengebeholdning bindes spilleren via metoden \textit{stash}.
-Derefter defineres via metoden \textit{Player}, at en spiller består af name, med en ny pengebeholdning på 1000.
-Efterfølgende defineres metoder navngivet henholdsvis \textit{getName} og \textit{getAmount} som tager udgangspunkt i \textit{name} og \textit{stash} fra tidligere.
-Sidst men ikke mindst specificerer vi, at metoden \textit{addAmount} med et parameter {numberToAdd}, skal tilføje de givne beløb under \textit{stash} eller pengebeholdning vha. af \textit{addAmount} fra \textit{Stash.java} gennemgået tidligere.\\
+\noindent Spillet gør brug af en tidligere udført GUI til visuel fremvisning af spillerer, brikker samt andre vigtige meddelelser.
+I Board klassen bygger vi brættet til denne GUI.
+Dette er gjort ved først at importere dets pakker som eksempelvis \lstinline{desktop_resources} og \lstinline{desktop_fields} hvilket tillod os at hente informationer vedrørende strukturer, layout (udseende) m.m. fra den vedlagte GUI.
+Eftersom at henvisningerne til de nødvendige ressourcer er etableret, kan vi begynde med at indføre de opkrævede felter.
+Dette opnås ved at lave et array ved navn fields bestående af 12 felter.
+\lstinline{GUI.create(fields)} metoden tager udgangspunkt i de 12 fields og derefter skaber visuelt de omtalte felter på brættet.
+\\
 
 
-\subsection{Translate, oversættelser}
+\subsection{Dice, Player og Stash}
+
+\textbf{Dice}\\
+\noindent Terningen er i implementeret ved at give brugeren mulighed for selv at vælge antallet af sider.
+Dette kan gøres i constructoren.
+Når man kaster med terningen gennem metode \lstinline{roll()} vil terningen ud fra antallet af sider sætte en random værdi.
+\\
+
+\noindent\textbf{Player}\\
+\noindent Player klassen udgør strukturen for spilleren i spillet.
+Denne klasse holder styr på spillernavn samt dennes pengebeholdning.
+Det er også gennem denne klasse at vi tilføjer og fjerner penge fra spillerens pengebeholdning.
+Dette er dog metoder som går direkte videre til Stash klassen.
+\\
+
+\noindent\textbf{Stash}\\
+Stash klassens formål er at give spillerne en konto hvorpå de kan opbevare deres penge.
+Der er her tilknyttet metoder til at indsætte penge i form af metoden \lstinline{addAmount()}.
+
+
+\subsection{Translate}
 
 For bedst muligt at kunne håndtere oversættelser til flere sprog, er der lavet en Translate klasse.
 Denne har til formål at parse en fil med key : value pairs af oversættelser, samt kunne give den rigtige oversættelse.
