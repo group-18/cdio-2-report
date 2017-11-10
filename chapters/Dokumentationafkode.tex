@@ -192,41 +192,6 @@ Sidst men ikke mindst specificerer vi, at metoden \textit{addAmount} med et para
 I stedet nøjes med kommentarer i selve koden der forklarer metodernes formål.
 Følgende er et udrag af vores \textit{Game.java} klasse.\\
 \begin{lstlisting}
-    //Definering af felter samt beskrivelser og vaerdier
-    private String[][] fields = new String[][] {
-        {"tower", "Tower"},
-        {"crater", "Crater"},
-        {"palace_gates", "Palace Gates"},
-        {"cold_desert", "Cold Desert"},
-        {"walled_city", "Walled City"},
-        {"monastery", "Monastery"},
-        {"black_cave", "Black Cave"},
-        {"huts_in_the_mountain", "Huts in the Mountain"},
-        {"the_werewall", "The Werewall (werewolf-wall)"},
-        {"the_pit", "The Pit"},
-        {"goldmine", "Goldmine"},
-    };
-
-    private int[] fieldValues = new int[] {
-        250,
-        -100,
-        100,
-        -20,
-        180,
-        0,
-        -70,
-        60,
-        -80,
-        -50,
-        650,
-    };
-
-    //Definering af terninger til spil
-    public Game()
-    {
-        this.dies = new Dice[] {new Dice(), new Dice()};
-    }
-
     //Start paa spil, Game
     public void play() {
     this.printWelcomeMessage();
@@ -242,7 +207,7 @@ Følgende er et udrag af vores \textit{Game.java} klasse.\\
         //Tilfoejer en knap som eksekverer foelgende while do saetning,...
         GUI.getUserButtonPressed("", "Kast");
         
-        //Do while loop som ruller terningen, saetter terningen paa GUI,
+        //Do while loop som ruller terningen, saetter terningen paa GUI, ...
         //saetter bil/spillerposition.
         do {
             GUI.removeAllCars(currentPlayer.getName());
@@ -319,26 +284,6 @@ private void printScoreBoard(Player winningPlayer)
     {winningPlayer.getName()});
     this.print(String.join("\n", scoreboardText));
 }
-
-//Sum af terninger
-private int sum()
-{
-    int sum = 0;
-
-    for (Dice dice : this.dies) {
-        sum += dice.getFaceValue();
-    }
-
-    return sum;
-}
-
-//Metode til rull af terning
-private void rollDies()
-{
-    for (Dice dice : this.dies) {
-        dice.roll();
-    }
-}
 \end{lstlisting}
 \vspace{2ex}
 
@@ -361,19 +306,60 @@ Følgende er et udrag af vores \textit{Game.java} samt \textit{Translate.java} k
             this.translations = new HashMap<String, String>(); ...
             this.parseFile("/languages/" + Translate.getLang() + ".txt");
         }
-        
-        //Metode som returnerer det valgte sprog 
-        public static String getLang()
+
+        public String get(String key)
         {
-            return Translate.lang;
-        }
-        
-        //Metode der saetter sproget
-        public static void setLang(String lang)
-        {
-            if (! Translate.hasInstance()) {
-                Translate.lang = lang;
+            if (! this.translations.containsKey(key)) {
+                return key;
             }
+    
+            String translation = this.translations.get(key);
+    
+            if (translation.equals("")) {
+                return key;
+            }
+            return translation;
+        }
+    
+        public String get(String key, String[] variables)
+        {
+            String translation = this.get(key);
+    
+            if (! translation.equals(key)) {
+                for (int i = 0; i < variables.length; i++) {
+                    translation = translation.replaceAll ...
+                     ("\\{\\{ ?#" + i + " ?\\}\\}", variables[i]);
+                }
+            }
+            return translation;
+        }
+    
+    //Skriver til oversaettelses tekstfil
+    private void parseFile(String filePath)
+    {
+        try {
+            InputStream in = this.getClass().getResourceAsStream(filePath);
+            BufferedReader reader = new BufferedReader ...
+             (new InputStreamReader(in));
+
+            String currentLine;
+            while ((currentLine = reader.readLine()) != null) {
+                if (currentLine.equals("")) {
+                    continue;
+                }
+
+                String[] keyValue = currentLine.split(":", 2);
+
+                String key = keyValue[0];
+                String val = keyValue.length == 1 ? "" : ...
+                 this.parseValue(keyValue[1]);
+
+                if (! this.translations.containsKey(key)) {
+                    this.translations.put(key, val);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 \end{lstlisting}
