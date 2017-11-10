@@ -31,3 +31,169 @@ Det fremgår af skærmbilledet, at alle procentsatser er >80\%, som der i størr
 \end{figure}
 
 \section{Testcases}
+
+Vi har udarbejdet en række test cases ud fra kravende som er specificeret i kapitel \ref{sec:requirements}.
+Disse test cases bekræfter at kravende er overholdt og programmet kan derfor godkendes bl.a. ud fra disse tests.
+
+\begin{table}[H]
+    \begin{center}
+        \begin{tabular}{|l|p{8cm}|}
+            \hline
+            \textbf{Unique ID} & TC1 \\
+            \hline
+            \textbf{Summary} & Kan programmet modtage de korrekte navne? \\
+            \hline
+            \textbf{Requirements} & \\
+            \hline
+            \textbf{Preconditions} & \\
+            \hline
+            \textbf{Postconditions} & \\
+            \hline
+            \textbf{Procedure} & \begin{enumerate}
+                \setlength\itemsep{0ex}
+                \item Start spillet
+                \item Indtast navnet "Abrahm" og tryk ok
+                \item Indtast navnet "Kirsten" og tryk ok
+            \end{enumerate} \\
+            \hline
+            \textbf{Test data} & \begin{itemize}
+                \setlength\itemsep{0ex}
+                \item Navn 1: Abraham
+                \item Navn 2: Kirsten
+            \end{itemize} \\
+            \hline
+            \textbf{Expected result} & Spillerne er blevet oprettet med navn og vises på brættet \\
+            \hline
+            \textbf{Actual result} & Som forventet \\
+            \hline
+            \textbf{Status} & Godkendt \\
+            \hline
+            \textbf{Tested by} & Magnus Hansen \\
+            \hline
+            \textbf{Date} & 10/11-2017 \\
+            \hline
+            \textbf{Environment} & IntelliJ on macOS \\
+            \hline
+        \end{tabular}
+    \end{center}
+    \caption{Test case 1 - test af navn}
+    \label{tc:1}
+\end{table}
+
+\begin{table}[H]
+    \begin{center}
+        \begin{tabular}{|l|p{8cm}|}
+            \hline
+            \textbf{Unique ID} & TC2 \\
+            \hline
+            \textbf{Summary} & Kan spilleren kaste med terningerne? \\
+            \hline
+            \textbf{Requirements} & \\
+            \hline
+            \textbf{Preconditions} & TC1 \\
+            \hline
+            \textbf{Postconditions} & \\
+            \hline
+            \textbf{Procedure} & \begin{enumerate}
+                \setlength\itemsep{0ex}
+                \item Tryk på knappen "kast"
+            \end{enumerate} \\
+            \hline
+            \textbf{Test data} & \\
+            \hline
+            \textbf{Expected result} & Det forventes at terningerne bliver kastet og vises på brættet \\
+            \hline
+            \textbf{Actual result} & Som forventet \\
+            \hline
+            \textbf{Status} & Godkendt \\
+            \hline
+            \textbf{Tested by} & Magnus Hansen \\
+            \hline
+            \textbf{Date} & 10/11-2017 \\
+            \hline
+            \textbf{Environment} & IntelliJ on macOS \\
+            \hline
+        \end{tabular}
+    \end{center}
+    \caption{Test case 2 - test af kast med terninger}
+    \label{tc:2}
+\end{table}
+
+\begin{table}[H]
+    \begin{center}
+        \begin{tabular}{|l|p{8cm}|}
+            \hline
+            \textbf{Unique ID} & TC3 \\
+            \hline
+            \textbf{Summary} & Vil spillerens pengebeholdning opdateres i forhold til det felt han/hun rammer? \\
+            \hline
+            \textbf{Requirements} & \\
+            \hline
+            \textbf{Preconditions} & TC1 og TC2 \\
+            \hline
+            \textbf{Postconditions} & \\
+            \hline
+            \textbf{Procedure} & \begin{enumerate}
+                \setlength\itemsep{0ex}
+                \item Tjek at det rette felt rammes
+                \item Tjek om pengebeholdning opdateres
+            \end{enumerate} \\
+            \hline
+            \textbf{Test data} & \\
+            \hline
+            \textbf{Expected result} & Det forventes at spilleren rammer det rette felt og få tildelt/frataget penge fra pengebeholdningen i forhold til tabel \ref{table:fields} \\
+            \hline
+            \textbf{Actual result} & Som forventet \\
+            \hline
+            \textbf{Status} & Godkendt \\
+            \hline
+            \textbf{Tested by} & Magnus Hansen \\
+            \hline
+            \textbf{Date} & 10/11-2017 \\
+            \hline
+            \textbf{Environment} & IntelliJ on macOS \\
+            \hline
+        \end{tabular}
+    \end{center}
+    \caption{Test case 3 - Felt \& pengebeholdning}
+    \label{tc:3}
+\end{table}
+
+\begin{table}[H]
+    \begin{center}
+        \begin{tabular}{|l|p{8cm}|}
+            \hline
+            \textbf{Unique ID} & TC4 \\
+            \hline
+            \textbf{Summary} & Vinder man ved en pengebeholdning på 3000 eller større? \\
+            \hline
+            \textbf{Requirements} & \\
+            \hline
+            \textbf{Preconditions} & TC1 \\
+            \hline
+            \textbf{Postconditions} & \\
+            \hline
+            \textbf{Procedure} & \begin{enumerate}
+                \setlength\itemsep{0ex}
+                \item Spil spillet for begge spillere.
+            \end{enumerate} \\
+            \hline
+            \textbf{Test data} & \\
+            \hline
+            \textbf{Expected result} & Når en spiller rammer en pengebeholdning på 3000 eller mere, er vinderen funder og spillet afsluttes ved at vise et scoreboard \\
+            \hline
+            \textbf{Actual result} & Som forventet \\
+            \hline
+            \textbf{Status} & Godkendt \\
+            \hline
+            \textbf{Tested by} & Magnus Hansen \\
+            \hline
+            \textbf{Date} & 10/11-2017 \\
+            \hline
+            \textbf{Environment} & IntelliJ on macOS \\
+            \hline
+        \end{tabular}
+    \end{center}
+    \caption{Test case 4 - Vinder \& scoreboard}
+    \label{tc:4}
+\end{table}
